@@ -20,6 +20,9 @@ import scala.jdk.CollectionConverters._
   name = "expected_result",
   defaultValue = "120--QUICKLY,118--ZEPHYRS,114--QUALIFY-QUICKEN-QUICKER"
 )
+@Parameter(name = "run_parallel", defaultValue = "true")
+@Parameter(name = "repeat_input", defaultValue = "1")
+@Parameter(name = "generated_words", defaultValue = "0")
 @Configuration(
   name = "test",
   settings = Array(
@@ -39,12 +42,21 @@ final class Scrabble extends Benchmark {
 
   private val scrabblePath = "/scrabble.txt"
 
+  private var runParallel: Boolean = _
+
+  private var repeatInput: Integer = _
+
+  private var generatedWords: Integer = _
+
   private var scrabble: JavaScrabble = _
 
   override def setUpBeforeAll(c: BenchmarkContext): Unit = {
     inputPathParam = c.parameter("input_path").value
     expectedResultParam = c.parameter("expected_result").toList().asScala.toSeq
-    scrabble = new JavaScrabble(inputPathParam, scrabblePath)
+    runParallel = c.parameter("run_parallel").toBoolean()
+    repeatInput = c.parameter("repeat_input").toInteger()
+    generatedWords = c.parameter("generated_words").toInteger()
+    scrabble = new JavaScrabble(inputPathParam, scrabblePath, repeatInput, generatedWords, runParallel)
   }
 
   override def run(c: BenchmarkContext): BenchmarkResult = {
