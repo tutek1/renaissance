@@ -54,7 +54,7 @@ public class JavaScrabble {
 
   private static final Integer syntheticWordMinLength = 2;
 
-  private static final Integer syntheticWordMaxLength = 20;
+  private static final Integer syntheticWordMaxLength = 13;
 
   public JavaScrabble(
           String shakespearePath, String scrabblePath, Integer inputRepeat, Integer generatedWords, Boolean runParallel
@@ -112,7 +112,7 @@ public class JavaScrabble {
       StringBuilder word = new StringBuilder();
 
       // Generate a word from random letters
-      for (int j = 0; j < syntheticWordMinLength + rand.nextInt(syntheticWordMaxLength); j++) {
+      for (int j = 0; j < syntheticWordMinLength + rand.nextInt(syntheticWordMaxLength + 1); j++) {
         char letter = alphabet.charAt(rand.nextInt(alphabet.length()));
         word.append(letter);
       }
